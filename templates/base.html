@@ -1,12 +1,24 @@
+{% load static %}
 <html>
     <head>
-        <title>Photoblog</title>
+        <title>PhotoBlog</title>
+        <link rel="stylesheet" href="{% static 'app.css' %}">
     </head>
     <body>
-        <h1>Photoblog</h1>
-        {% block content %}{% endblock content %}
-        {%  if user.is_authenticated %}
-            <p>Vous êtes connecté en tant que {{ request.user }}. <a href="{% url 'logout' %}">Se déconnecter</a></p>
-        {% endif %}
+        <div class="sidebar">
+            <h1>PhotoBlog</h1>
+            {% if user.is_authenticated %}
+                <p>Salut, {{ user }} !</p>
+                <img class="avatar" src="{% static 'images/default_profile.png'%}">
+                <p><a href="{% url 'home' %}">Accueil</a></p>
+                <p><a href="{% url 'photo_upload' %}">Téléverser une photo</a></p>
+                <p><a href="">Changer la photo de profil</a></p>
+                <p><a href="{% url 'password_change' %}">Changer le mot de passe</a></p>
+                <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+            {% endif %}
+        </div>
+        <div class="main">
+            {% block content %}{% endblock content %}
+        </div>
     </body>
 </html>
