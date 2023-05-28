@@ -56,7 +56,9 @@ ROOT_URLCONF = 'photoblog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR.joinpath('templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,6 +76,9 @@ WSGI_APPLICATION = 'photoblog.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
+
+LOGIN_URL = 'login'
 
 DATABASES = {
     'default': {
