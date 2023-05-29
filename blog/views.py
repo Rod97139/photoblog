@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import redirect, render
 from django.forms import formset_factory
-
+from django.db.models import Q
 from . import forms, models
 from django.shortcuts import get_object_or_404
 
@@ -67,11 +67,25 @@ def blog_and_photo_upload(request):
     return render(request, 'blog/create_blog_post.html', context=context)
 
 
-@login_required
+# @login_required
+# def home(request):
+#     photos = models.Photo.objects.all()
+#     blogs = models.Blog.objects.all()
+#     return render(request, 'blog/home.html', context={'photos': photos, 'blogs': blogs})
+
 def home(request):
-    photos = models.Photo.objects.all()
-    blogs = models.Blog.objects.all()
-    return render(request, 'blog/home.html', context={'photos': photos, 'blogs': blogs})
+    blogs = models.Blog.objects.filter(
+    Q(contributors__in=request.user.follows.all()) | Q(starred=True))
+    
+    photos = models.Photo.objects.filter(
+        uploader__in=request.user.follows.all()).exclude(
+            blog__in=blogs
+    )
+    context = {
+        'blogs': blogs,
+        'photos': photos,
+    }
+    return render(request, 'blog/home.html', context=context)
 
 @login_required
 @permission_required('blog.add_photo', raise_exception=True)
