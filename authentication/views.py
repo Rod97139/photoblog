@@ -25,3 +25,5 @@ def upload_profile_photo(request):
             return redirect('home')
     return render(request, 'authentication/upload_profile_photo.html', context={'form': form})
 
+
+
