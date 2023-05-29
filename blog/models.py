@@ -39,3 +39,8 @@ class Blog(models.Model):
     def save(self, *args, **kwargs):
         self.word_count = self._get_word_count()
         super().save(*args, **kwargs)
+
+    class Meta:
+        permissions = [
+            ('change_blog_title', 'Peut changer le titre d\'un billet de blog')
+        ]
