@@ -1,5 +1,5 @@
 from itertools import chain
-
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.forms import formset_factory
 from django.db.models import Q
@@ -38,8 +38,12 @@ def home(request):
         reverse=True
     )
 
+    paginator = Paginator(blogs_and_photos, 6)
+    page = request.GET.get('page')
+    page_obj = paginator.get_page(page)
+
     context = {
-        'blogs_and_photos': blogs_and_photos,
+        'page_obj': page_obj,
     }
     return render(request, 'blog/home.html', context=context)
 
@@ -129,7 +133,11 @@ def follow_users(request):
 def photo_feed(request):
     photos = models.Photo.objects.filter(
         uploader__in=request.user.follows.all()).order_by('-date_created')
+    paginator = Paginator(photos, 6)
+    page = request.GET.get('page')
+    page_obj = paginator.get_page(page)
+
     context = {
-        'photos': photos,
+        'page_obj': page_obj,
     }
     return render(request, 'blog/photo_feed.html', context=context)

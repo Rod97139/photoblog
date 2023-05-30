@@ -3,7 +3,7 @@
 {% block content %}
     <h2>Votre flux</h2>
     <div class="grid-container">
-        {% for instance in blogs_and_photos %}
+        {% for instance in page_obj %}
             {% if instance|model_type == 'Blog' %}
                 {% include 'blog/partials/blog_snippet.html' with blog=instance %}
             {% elif instance|model_type == 'Photo' %}
@@ -11,4 +11,5 @@
             {% endif %}
         {% endfor %}
     </div>
+    {% include 'blog/partials/pagination_snippet.html' %}
 {% endblock content %}
