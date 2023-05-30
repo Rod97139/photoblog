@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Modifier le post</h2>
+    <h2>Modifier le billet</h2>
     <form method="post">
         {{ edit_form.as_p }}
         {% csrf_token %}
         <button type="submit" >Sauvegarder</button>
     </form>
     <hr>
-    <h3>Supprimer le post</h3>
+    <h3>Supprimer le billet ?</h3>
     <form method="post">
         {{ delete_form }}
         {% csrf_token %}
